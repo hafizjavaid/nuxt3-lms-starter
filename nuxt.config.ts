@@ -7,5 +7,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     "@nuxtjs/cloudinary",
     'nuxt-auth-utils',
+    'nuxt-tiptap-editor',
   ],
 })
