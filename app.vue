@@ -1,5 +1,8 @@
 <template>
   <div>
-    <h1>Starter Template </h1>
+    <NuxtLayout>
+      <NuxtPage></NuxtPage>
+    </NuxtLayout>
+    <UNotifications />
   </div>
 </template>

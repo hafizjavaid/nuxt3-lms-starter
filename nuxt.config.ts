@@ -9,4 +9,9 @@ export default defineNuxtConfig({
     'nuxt-auth-utils',
     'nuxt-tiptap-editor',
   ],
+
+  runtimeConfig: {
+    githubId: '',
+    githubSecret: '',
+  }
 })
