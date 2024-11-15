@@ -6,16 +6,18 @@
 
         <UButton @click="logout">Logout</UButton>
 
+        <UButton to="/teacher">Teacher Mode</UButton>
+
     </div>
 </template>
 
 <script setup lang="ts">
+definePageMeta({
+    middleware: 'protected'
+})
+
 const { user, clear } = useUserSession()
 
-watchEffect(() => {
-    console.log(user.value);
-    
-})
 
 const logout = async () => {
     await clear();

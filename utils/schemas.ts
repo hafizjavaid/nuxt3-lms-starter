@@ -13,3 +13,14 @@ export const registerSchema = authSchema.extend({
 
 export type LoginSchema = z.output<typeof loginSchema>;
 export type RegisterSchema = z.output<typeof registerSchema>;
+
+
+// Course 
+
+export const courseSchema = z.object({
+    title: z.string().min(1, {
+        message: 'Title is required'
+    })
+})
+
+export type CourseSchema = z.output<typeof courseSchema>;

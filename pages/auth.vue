@@ -17,6 +17,8 @@ const registerForm = reactive({ email: '', password: '', name: '' })
 
 const { isLoading, toggleLoading, showMessage, showError } = useStore();
 
+const { fetch: refreshSession } = useUserSession();
+
 async function login(event: FormSubmitEvent<LoginSchema>) {
 
     try {
@@ -26,6 +28,7 @@ async function login(event: FormSubmitEvent<LoginSchema>) {
             method: 'POST',
             body: event.data
         })
+        await refreshSession();
         await navigateTo('/');
 
 

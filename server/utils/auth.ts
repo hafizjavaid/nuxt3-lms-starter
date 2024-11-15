@@ -2,7 +2,7 @@ import type { User } from '@prisma/client'
 
 
 export const sanitizeUser = (user: User) => {
-    if (!user || !user.hashedPassword) return null
+    if (!user) return null
 
 
     // @ts-ignore
