@@ -13,5 +13,11 @@ export default defineNuxtConfig({
   runtimeConfig: {
     githubId: '',
     githubSecret: '',
+    public: {
+      cloudinaryCloudName: '',
+      uploadPreset: ''
+    },
+    cloudinaryApiKey: '',
+    cloudinaryApiSecret: '',
   }
 })

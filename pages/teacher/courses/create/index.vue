@@ -33,7 +33,7 @@ definePageMeta({
 import type { CourseSchema } from '~/utils/schemas';
 import type { FormSubmitEvent } from '#ui/types'
 
-const { isLoading } = useStore();
+const { isLoading, toggleLoading, showError, showMessage } = useStore();
 
 const courseForm = ref<CourseSchema>({
     title: ''
@@ -41,7 +41,27 @@ const courseForm = ref<CourseSchema>({
 
 
 const onSubmit = async (event: FormSubmitEvent<CourseSchema>) => {
-    console.log(event.data);
+    try {
+
+        toggleLoading(true);
+        await $fetch('/api/teacher/courses', {
+            method: 'POST',
+            body: event.data
+        })
+
+        await navigateTo('/teacher/courses');
+
+
+
+    } catch (error) {
+
+        const err = handleError(error);
+        showError(err);
+
+    } finally {
+        toggleLoading(false);
+
+    }
 }
 
 </script>
