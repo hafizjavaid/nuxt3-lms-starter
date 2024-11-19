@@ -14,7 +14,7 @@
         <p v-if="!isEditing" class="text-sm mt-2">
             {{ selectedOption ? selectedOption.name : 'No Category' }}
         </p>
-        <UForm v-if="isEditing" :schema="courseSchema" :state="courseForm" @submit="onSubmit">
+        <UForm v-if="isEditing"  :state="courseForm" @submit="onSubmit">
             <div class="space-y-4 mt-8">
                 <!-- @vue-expect-error -->
                 <USelectMenu v-model="courseForm.categoryId" :options="options" placeholder="Select a category ..."

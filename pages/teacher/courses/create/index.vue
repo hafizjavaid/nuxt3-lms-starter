@@ -7,7 +7,7 @@
                 What would you like to name your course? Don&apos;t worry, you can change this
                 later.
             </p>
-            <UForm :schema="courseSchema" :state="courseForm" @submit="onSubmit">
+            <UForm :schema="formSchema" :state="courseForm" @submit="onSubmit">
                 <div class="space-y-8 mt-8">
                     <UFormGroup label="Course title" name="title" help="What will you teach in this course?">
                         <UInput v-model="courseForm.title" placeholder="e.g. 'Advanced web development'" />
@@ -25,22 +25,30 @@
 </template>
 
 <script setup lang="ts">
+import z from 'zod'
 definePageMeta({
     middleware: 'protected',
     layout: 'teacher'
 })
 
-import type { CourseSchema } from '~/utils/schemas';
 import type { FormSubmitEvent } from '#ui/types'
 
 const { isLoading, toggleLoading, showError, showMessage } = useStore();
 
-const courseForm = ref<CourseSchema>({
+const formSchema = z.object({
+    title: z.string().min(1, {
+        message: 'Title is required'
+    }),
+})
+
+type FormSchema = z.output<typeof courseSchema>;
+
+const courseForm = ref<{ title: string }>({
     title: ''
 })
 
 
-const onSubmit = async (event: FormSubmitEvent<CourseSchema>) => {
+const onSubmit = async (event: FormSubmitEvent<FormSchema>) => {
     try {
 
         toggleLoading(true);

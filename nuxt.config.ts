@@ -19,5 +19,8 @@ export default defineNuxtConfig({
     },
     cloudinaryApiKey: '',
     cloudinaryApiSecret: '',
+  },
+  colorMode: {
+    preference: 'light'
   }
 })

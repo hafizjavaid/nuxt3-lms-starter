@@ -3,22 +3,24 @@
 
         <div class="font-medium flex items-center justify-between">
 
-            Course Price 
+            Chapter Description
 
             <UButton variant="ghost" v-if="isEditing" @click="isEditing = !isEditing">Cancel</UButton>
             <UButton icon="i-lucide-pencil" variant="ghost" v-else @click="isEditing = !isEditing">
-                Edit Price 
+                Edit description
             </UButton>
 
         </div>
         <p v-if="!isEditing" class="text-sm mt-2">
-            {{ initialData.price ? formatPrice(initialData.price) : 'No Price' }}
+            {{ chapterForm.description }}
         </p>
-        <UForm v-if="isEditing"  :state="courseForm" @submit="onSubmit">
+        <UForm v-if="isEditing"  :state="chapterForm" @submit="onSubmit">
             <div class="space-y-4 mt-8">
-                <UFormGroup label="Course price" name="price" help="What will be the price of this course?">
-                    <UInput v-model="courseForm.price" placeholder="Set a price"
-                        :disabled="isLoading" type="number" />
+
+                <UFormGroup label="Chapter description" name="description">
+                    <!-- @vue-expect-error -->
+                    <UTextarea v-model="chapterForm.description" placeholder="e.g. This chapter is about..."
+                        :disabled="isLoading" />
                 </UFormGroup>
                 <div class="flex items-center gap-x-2">
 
@@ -30,21 +32,21 @@
 </template>
 
 <script setup lang="ts">
-import type { Course } from '@prisma/client';
+import type { Chapter } from '@prisma/client';
 import type { FormSubmitEvent } from '#ui/types'
 
-interface TitleFormProps {
+interface DescriptionFormProps {
     initialData: {
-        price: number | null
+        description: string | null
     },
 }
-const props = defineProps<TitleFormProps>();
+const props = defineProps<DescriptionFormProps>();
 
-const courseForm = ref<Partial<Course>>(props.initialData);
+const chapterForm = ref<Partial<Chapter>>(props.initialData);
 
-watch(() => props.initialData.price, (price) => {
+watch(() => props.initialData.description, (description) => {
 
-    courseForm.value.price = price;
+    chapterForm.value.description = description;
 
 })
 
@@ -55,21 +57,21 @@ const { isLoading, toggleLoading, showMessage, showError } = useStore();
 const { params } = useRoute();
 
 
-const onSubmit = async (event: FormSubmitEvent<CourseSchema>) => {
+const onSubmit = async (event: FormSubmitEvent<ChapterSchema>) => {
 
     try {
         toggleLoading(true);
 
-        const updatedCourse = await $fetch(`/api/teacher/courses/${params.courseId}`, {
+        await $fetch(`/api/teacher/courses/${params.courseId}/chapters/${params.chapterId}`, {
             method: 'PATCH',
             body: event.data
         })
 
         showMessage({
-            title: 'Course Updated successfully'
+            title: 'Chapter Updated successfully'
         })
 
-        refreshNuxtData(`Teacher-Course-${params.courseId}`);
+        refreshNuxtData(`Teacher-Chapter-${params.chapterId}`);
         isEditing.value = false
 
 

@@ -12,7 +12,7 @@
                 </span>
             </div>
             <!-- @vue-expect-error -->
-            <CourseActions :course="course"></CourseActions>
+            <CourseActions :course="course" ></CourseActions>
 
         </div>
 
@@ -43,6 +43,7 @@
                     <h2 class="text-xl">Course Chapters</h2>
                 </div>
                 <!-- Course Chapters Form -->
+                <CourseChaptersForm :initial-data="course"></CourseChaptersForm>
                 <div>
                     <div class="flex items-center gap-x-2">
                         <UButton icon="i-lucide-circle-dollar-sign" size="lg" :ui="{ rounded: 'rounded-full' }"
@@ -58,7 +59,9 @@
                         <UButton icon="i-lucide-file" size="lg" :ui="{ rounded: 'rounded-full' }" variant="soft" />
                         <h2 class="text-xl">Resources & Attachments</h2>
                     </div>
-                    <!-- Course Price Form -->
+                    <!-- Course Attachments Form -->
+                    <!-- @vue-expect-error -->
+                    <CourseAttachementsForm  :initial-data="course"></CourseAttachementsForm>
                 </div>
             </div>
         </div>

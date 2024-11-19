@@ -1,44 +1,46 @@
 <template>
+    <!-- <pre>{{ chapter }}</pre> -->
     <div class="flex items-center gap-x-2">
-        <UButton color="gray" :label="course.isPublished ? 'UnPublish' : 'Publish'" @click="toggleCourse"
+        <UButton color="gray" :label="chapter.isPublished ? 'UnPublish' : 'Publish'" @click="toggleChapter"
             :disabled="isLoading"></UButton>
         <UButton icon="i-heroicons-trash" size="sm" color="red" variant="soft" square @click="toggleAlertModal(true)"
             :disabled="isLoading" />
     </div>
-    <ConfirmModal v-if="isConfirmModalVisible" @on-confirm="deleteCourse"></ConfirmModal>
+    <ConfirmModal v-if="isConfirmModalVisible" @on-confirm="deleteChapter"></ConfirmModal>
 </template>
 
 <script setup lang="ts">
-import type { Course } from '@prisma/client';
+import type { Chapter } from '@prisma/client';
 
 const props = defineProps<{
-    course: Course
+    chapter: Chapter
 }>();
 
 const { isLoading, toggleAlertModal, isConfirmModalVisible, toggleLoading, showMessage } = useStore();
 
 const { params } = useRoute();
 
-const toggleCourse = async () => {
+const toggleChapter = async () => {
 
     try {
 
         toggleLoading(true)
-        if (props.course.isPublished) {
-            await $fetch(`/api/teacher/courses/${params.courseId}/unpublish`, {
+        if (props.chapter.isPublished) {
+            await $fetch(`/api/teacher/courses/${params.courseId}/chapters/${params.chapterId}/unpublish`, {
                 method: 'PATCH',
             })
 
         } else {
-            await $fetch(`/api/teacher/courses/${params.courseId}/publish`, {
+            await $fetch(`/api/teacher/courses/${params.courseId}/chapters/${params.chapterId}/publish`, {
                 method: 'PATCH',
+                body: props.chapter
             })
         }
         showMessage({
-            title: 'Course Updated successfully'
+            title: 'Chapter Updated successfully'
         })
 
-        refreshNuxtData(`Teacher-Course-${params.courseId}`);
+        refreshNuxtData(`Teacher-Chapter-${params.chapterId}`);
 
     } catch (error) {
         const err = handleError(error);
@@ -49,19 +51,21 @@ const toggleCourse = async () => {
 
 }
 
-const deleteCourse = async () => {
+const deleteChapter = async () => {
+    console.log(props.chapter.id);
     try {
 
         toggleLoading(true)
-        await $fetch(`/api/teacher/courses/${params.courseId}`, {
+        await $fetch(`/api/teacher/courses/${params.courseId}/chapters/${params.chapterId}`, {
             method: 'DELETE',
         })
         showMessage({
-            title: 'Course deleted successfully'
+            title: 'Chapter Updated successfully'
         })
 
-        await refreshNuxtData(`Teacher-Courses`);
-        await navigateTo('/teacher/courses');
+        refreshNuxtData(`Teacher-Course-${params.courseId}`);
+        await navigateTo(`/teacher/courses/${params.courseId}`)
+        toggleAlertModal(false);
 
     } catch (error) {
         const err = handleError(error);

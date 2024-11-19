@@ -14,7 +14,7 @@
         <p v-if="!isEditing" class="text-sm mt-2">
             {{ courseForm.title }}
         </p>
-        <UForm v-if="isEditing" :schema="courseSchema" :state="courseForm" @submit="onSubmit">
+        <UForm v-if="isEditing"  :state="courseForm" @submit="onSubmit">
             <div class="space-y-4 mt-8">
                 <UFormGroup label="Course title" name="title" help="What will you teach in this course?">
                     <UInput v-model="courseForm.title" placeholder="e.g. 'Advanced web development'"

@@ -21,14 +21,31 @@ export const courseSchema = z.object({
     title: z.string().min(1, {
         message: 'Title is required'
     }),
-    descrition: z.string().nullish(),
+    description: z.string().nullish(),
     imageUrl: z.string().min(1, {
         message: 'Image is required'
     }),
     categoryId: z.string().min(1, {
         message: 'Category is required'
     }),
-    price: z.coerce.number().optional()
+    price: z.coerce.number().optional(),
+    attachmentUrl: z.string().min(1, {
+        message: 'Attachment is required'
+    }),
+})
+
+export const chapterSchema = z.object({
+    title: z.string().min(1, {
+        message: 'Title is required'
+    }),
+    description: z.string().min(1, {
+        message: 'Description is required'
+    }),
+    videoUrl: z.string().min(1, {
+        message: 'Video is required'
+    }),
+    isFree: z.coerce.boolean().default(false),
 })
 
 export type CourseSchema = z.output<typeof courseSchema>;
+export type ChapterSchema = z.output<typeof chapterSchema>;

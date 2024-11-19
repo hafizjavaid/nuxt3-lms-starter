@@ -3,40 +3,42 @@
 
         <div class="font-medium flex items-center justify-between">
 
-            Course Image
+            Chapter Video
 
             <UButton variant="ghost" v-if="isEditing" @click="isEditing = !isEditing">Cancel</UButton>
-            <UButton icon="i-lucide-pencil" variant="ghost" v-else-if="!isEditing && courseForm.imageUrl"
+            <UButton icon="i-lucide-pencil" variant="ghost" v-else-if="!isEditing && chapterForm.videoUrl"
                 @click="isEditing = !isEditing">
-                Edit image
+                Edit Video
             </UButton>
             <UButton icon="i-lucide-pencil" variant="ghost" v-else @click="isEditing = !isEditing">
-                Add image
+                Add Video
             </UButton>
 
         </div>
-        <UForm  :state="courseForm" @submit="onSubmit">
+        <UForm :schema="chapterSchema" :state="chapterForm" @submit="onSubmit">
 
             <div v-if="!isEditing" class="mt-8">
-                <div v-if="!courseForm.imageUrl"
+                <div v-if="!chapterForm.videoUrl"
                     class="flex flex-col items-center justify-center h-60 bg-neutral-50 rounded-md mt-2">
-                    <Icon name="i-lucide-image" class="h-10 w-10 text-slate-500" />
+                    <Icon name="i-lucide-video" class="h-10 w-10 text-slate-500" />
                     <div class="text-xs text-muted-foreground mt-4 text-center">
-                        No image found
+                        No video found
                     </div>
                 </div>
                 <div v-else class="relative aspect-video mt-2">
-                    <img :src="courseForm.imageUrl" alt="Course Image"
-                        class="object-cover rounded-md max-h-[200px] w-full">
+                    <CldVideoPlayer :source-types="['mp4']" :transformation="{ quality: 'auto' }" aspect-ratio="16:9"
+                        class="w-full" width="300" height="150" :src="chapterForm.videoUrl">
+                    </CldVideoPlayer>
                 </div>
             </div>
             <div v-else>
                 <div class="space-y-4 mt-8">
                     <UploadButton @on-change="async (url) => {
                         await onSubmit({
-                            imageUrl: url
+                            videoUrl: url
                         })
-                    }"></UploadButton>
+
+                    }" :is-video="true" :allowed-formats="['mp4']"></UploadButton>
                 </div>
             </div>
         </UForm>
@@ -44,49 +46,48 @@
 </template>
 
 <script setup lang="ts">
-import type { Course } from '@prisma/client';
-import type { FormSubmitEvent } from '#ui/types'
+import type { Chapter } from '@prisma/client';
 
-interface TitleFormProps {
+interface VideoFormProps {
     initialData: {
-        imageUrl: string | null
+        videoUrl: string | null
     },
 }
-const props = defineProps<TitleFormProps>();
+const props = defineProps<VideoFormProps>();
 
-const courseForm = ref<Partial<Course>>(props.initialData);
+const chapterForm = ref<Partial<Chapter>>(props.initialData);
 
-watch(() => props.initialData.imageUrl, (imageUrl) => {
+watch(() => props.initialData.videoUrl, (videoUrl) => {
 
-    courseForm.value.imageUrl = imageUrl;
+    chapterForm.value.videoUrl = videoUrl;
 
 })
 
 const isEditing = ref(false)
 
-const { isLoading, toggleLoading, showMessage, showError } = useStore();
+const { toggleLoading, showMessage, showError } = useStore();
 
 const { params } = useRoute();
 
 
-const onSubmit = async (event: Partial<CourseSchema>) => {
+const onSubmit = async (event: Partial<ChapterSchema>) => {
 
     try {
         toggleLoading(true);
 
         console.log(event);
-        
 
-        const updatedCourse = await $fetch(`/api/teacher/courses/${params.courseId}`, {
+
+        await $fetch(`/api/teacher/courses/${params.courseId}/chapters/${params.chapterId}`, {
             method: 'PATCH',
             body: event
         })
 
         showMessage({
-            title: 'Course Updated successfully'
+            title: 'Chapter Updated successfully'
         })
 
-        refreshNuxtData(`Teacher-Course-${params.courseId}`);
+        refreshNuxtData(`Teacher-Chapter-${params.chapterId}`);
         isEditing.value = false
 
 
