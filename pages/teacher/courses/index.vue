@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { Course } from '@prisma/client';
+
 const columns = [
     {
         key: 'title',
@@ -61,7 +63,15 @@ definePageMeta({
     layout: 'teacher'
 })
 
-
+const items = (row: Course) => [
+    [
+        {
+            label: 'Edit',
+            icon: 'i-heroicons-pencil-square-20-solid',
+            click: () => navigateTo(`/teacher/courses/${row.id}`),
+        }
+    ]
+]
 </script>
 
 <template>
@@ -72,7 +82,16 @@ definePageMeta({
                 :trailing="false" to="/teacher/courses/create" />
         </div>
 
-        <UTable :rows="rows" :columns="columns" />
+        <!-- <pre>{{  courses  }}</pre> -->
+        <UTable :rows="rows" :columns="columns">
+
+            <template #actions-data="{ row }">
+                <UDropdown :items="items(row)">
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+                </UDropdown>
+            </template>
+
+        </UTable>
 
         <div class="flex justify-end px-3 py-3.5 border-t border-gray-200 dark:border-gray-700">
             <UPagination v-model="page" :page-count="pageCount" :total="courses ? courses.length : 0" />

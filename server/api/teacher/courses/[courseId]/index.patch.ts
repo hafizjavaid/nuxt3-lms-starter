@@ -17,34 +17,14 @@ export default defineEventHandler(async (event) => {
             },
             data: {
                 title: data.title,
-                description: data.description,
-                imageUrl: data.imageUrl,
-                categoryId: data.categoryId,
-                price: data.price
+                description: data.description ? data.description : null,
+                imageUrl: data.imageUrl ? data.imageUrl : null,
+                categoryId: data.categoryId ? data.categoryId : null,
+                price: data.price ? data.price : null
 
             }
         })
 
         return course
-
-        // return await db.course.findUnique({
-        //     where: {
-        //         userId: session.user.id,
-        //         id: event.context.params?.courseId
-        //     },
-        //     include: {
-        //         chapters: {
-        //             orderBy: {
-        //                 position: 'asc'
-        //             }
-        //         },
-        //         attachments: {
-        //             orderBy: {
-        //                 createdAt: 'desc'
-        //             }
-        //         }
-        //     }
-        // })
-
     }
 })

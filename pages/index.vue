@@ -7,6 +7,8 @@
         <UButton @click="logout">Logout</UButton>
 
         <UButton to="/teacher">Teacher Mode</UButton>
+        <UButton to="/search">Search Courses</UButton>
+
 
     </div>
 </template>
