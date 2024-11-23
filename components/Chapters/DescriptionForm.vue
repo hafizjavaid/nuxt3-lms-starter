@@ -11,16 +11,23 @@
             </UButton>
 
         </div>
-        <p v-if="!isEditing" class="text-sm mt-2">
-            {{ chapterForm.description }}
-        </p>
-        <UForm v-if="isEditing"  :state="chapterForm" @submit="onSubmit">
+        <template v-if="!isEditing">
+            <div class="text-sm mt-2" :class="{ 'text-slate-500 italic': !initialData.description }">
+                <template v-if="!initialData.description"> No description </template>
+                <template v-else>
+                    <div class="prose lg:prose-xl" v-html="initialData.description"></div>
+                </template>
+            </div>
+        </template>
+        <UForm v-if="isEditing" :state="chapterForm" @submit="onSubmit">
             <div class="space-y-4 mt-8">
 
                 <UFormGroup label="Chapter description" name="description">
-                    <!-- @vue-expect-error -->
-                    <UTextarea v-model="chapterForm.description" placeholder="e.g. This chapter is about..."
-                        :disabled="isLoading" />
+                    <!-- <UTextarea v-model="chapterForm.description" placeholder="e.g. This chapter is about..."
+                        :disabled="isLoading" /> -->
+                    <ClientOnly>
+                        <Editor v-model="chapterForm.description"></Editor>
+                    </ClientOnly>
                 </UFormGroup>
                 <div class="flex items-center gap-x-2">
 
