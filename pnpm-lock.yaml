@@ -36,8 +36,8 @@ importers:
         specifier: ^5.10.2
         version: 5.22.0
       stripe:
-        specifier: ^17.3.1
-        version: 17.3.1
+        specifier: 14.5.0
+        version: 14.5.0
       vue:
         specifier: latest
         version: 3.5.12(typescript@5.6.3)
@@ -3297,8 +3297,8 @@ packages:
 
       (For a CapTP with native promises, see @endo/eventual-send and @endo/captp)
 
-  qs@6.13.0:
-    resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
+  qs@6.13.1:
+    resolution: {integrity: sha512-EJPeIn0CYrGu+hli1xilKAPXODtJ12T0sP63Ijx2/khC2JtuaN3JyNIpvmnkmaEtha9ocbG4A4cMcr+TvqvwQg==}
     engines: {node: '>=0.6'}
 
   queue-microtask@1.2.3:
@@ -3578,8 +3578,8 @@ packages:
   strip-literal@2.1.0:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
 
-  stripe@17.3.1:
-    resolution: {integrity: sha512-E9/u+GFBPkYnTmfFCoKX3+gP4R3SkZoGunHe4cw9J+sqkj5uxpLFf1LscuI9BuEyIQ0PFAgPTHavgQwRtOvnag==}
+  stripe@14.5.0:
+    resolution: {integrity: sha512-MTt0P0VYDAj2VZyZMW41AxcXVs9s06EDFIHYat4UUkluJgnBHo4T4E2byPhnxoJCPvdzWBwBLnhWbSOg//VTpA==}
     engines: {node: '>=12.*'}
 
   stylehacks@7.0.4:
@@ -7785,7 +7785,7 @@ snapshots:
 
   q@1.5.1: {}
 
-  qs@6.13.0:
+  qs@6.13.1:
     dependencies:
       side-channel: 1.0.6
 
@@ -8092,10 +8092,10 @@ snapshots:
     dependencies:
       js-tokens: 9.0.0
 
-  stripe@17.3.1:
+  stripe@14.5.0:
     dependencies:
       '@types/node': 22.9.0
-      qs: 6.13.0
+      qs: 6.13.1
 
   stylehacks@7.0.4(postcss@8.4.47):
     dependencies:
