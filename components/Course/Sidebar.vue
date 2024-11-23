@@ -20,8 +20,6 @@ const { params } = useRoute();
 const { data: course } = useNuxtData(`course-${params.courseId}`);
 const { data: purchase  } = useNuxtData(`purchase-${params.courseId}`);
 const { data: progressCount } = useNuxtData(`progress-${params.courseId}`);
-
-
 </script>
 
 <style scoped></style>

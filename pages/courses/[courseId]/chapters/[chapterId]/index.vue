@@ -8,16 +8,20 @@
             title="You need to purchase this course to watch this chapter." variant="soft" color="yellow" />
 
 
+
+
         <div class="flex flex-col w-full max-w-4xl pb-20 mx-auto px-4">
+            <UButton icon="i-lucide-arrow-left" variant="ghost" label="Back to courses" :trailing="false"
+                :to="`/search`" class="mb-0 mt-3 max-w-[150px]" />
             <div class="md:px-0">
-                <div class="relative mt-4">
+                <div class="relative mt-4 min-h-[400px]">
                     <div v-if="!isLocked" class="absolute inset-0 flex items-center justify-center bg-slate-800">
                         <Icon name="i-lucide-loader-2" class="w-8 h-8 animate-spin" />
                     </div>
                     <div v-else
                         class="absolute inset-0 flex flex-col items-center justify-center bg-slate-800 gap-y-2 text-secondary">
-                        <Icon name="i-lucide-lock" class="w-8 h-8" />
-                        <p class="text-sm">This chapter is locked.</p>
+                        <Icon name="i-lucide-lock" class="w-8 h-8 text-white" />
+                        <p class="text-sm text-white">This chapter is locked.</p>
                     </div>
                     <CldVideoPlayer v-if="data?.chapter.videoUrl && !isLocked" :source-types="['mp4']" width="880"
                         height="495" :transformation="{ quality: 'auto' }" :src="data?.chapter.videoUrl"
@@ -58,7 +62,17 @@ definePageMeta({
 
 const { params } = useRoute();
 
-const { data, status } = await useFetch(`/api/courses/${params.courseId}/chapters/${params.chapterId}`, {
+await useLazyFetch(`/api/courses/${params.courseId}`, {
+    key: `course-${params.courseId}`,
+})
+await useLazyFetch(`/api/courses/${params.courseId}/purchase`, {
+    key: `purchase-${params.courseId}`,
+})
+await useLazyFetch(`/api/courses/${params.courseId}/progress`, {
+    key: `progress-${params.courseId}`,
+})
+
+const { data, status } = await useLazyFetch(`/api/courses/${params.courseId}/chapters/${params.chapterId}`, {
     key: `${params.courseId}/chapters/${params.chapterId}`
 })
 
