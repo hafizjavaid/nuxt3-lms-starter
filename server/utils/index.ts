@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 
 
 const config = useRuntimeConfig();
-export const stripe = new Stripe(config.stripeApiSecret, {
+export const stripe = new Stripe(config.stripeSecret, {
     apiVersion: '2023-10-16',
     typescript: true
 });
