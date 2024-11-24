@@ -1,20 +1,17 @@
 <template>
-    <div>
-        <pre>
-            {{ course }}
-        </pre>
-    </div>
+
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-    layout: 'chapter',
     middleware: 'protected'
 })
 
 const { params } = useRoute();
 
-const { data: course, status } = await useFetch(`/api/courses/${params.courseId}`)
+const { data: course, status } = await useFetch(`/api/courses/${params.courseId}`, {
+    key: `course-${params.courseId}`
+})
 
 
 watchEffect(() => {

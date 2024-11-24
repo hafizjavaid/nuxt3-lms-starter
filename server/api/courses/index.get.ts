@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
         const { title, categoryId }: { title?: string, categoryId?: string } = getQuery(event);
 
         console.log(title, categoryId);
-        
+
 
         const courses = await db.course.findMany({
             where: {
@@ -45,7 +45,23 @@ export default defineEventHandler(async (event) => {
             }
         })
 
-        return courses
+        const coursesWithProgress = await Promise.all(
+            courses.map(async (course) => {
+                if (course.purchases.length === 0) {
+                    return {
+                        ...course,
+                        progress: null
+                    }
+                }
+                const progressPercentage = await event.$fetch<null | number>(`http://localhost:3000/api/courses/${course.id}/progress`);
+                return {
+                    ...course,
+                    progress: progressPercentage
+                }
+            })
+        )
+
+        return coursesWithProgress
 
     }
 })

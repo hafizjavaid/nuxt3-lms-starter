@@ -13,9 +13,13 @@ export default defineNuxtConfig({
   runtimeConfig: {
     githubId: '',
     githubSecret: '',
+    stripeSecret: '',
+    stripeWebhookSecret: '',
     public: {
       cloudinaryCloudName: '',
-      uploadPreset: ''
+      uploadPreset: '',
+      stripeKey: '',
+
     },
     cloudinaryApiKey: '',
     cloudinaryApiSecret: '',

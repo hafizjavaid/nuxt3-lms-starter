@@ -1,5 +1,6 @@
 
 import cloudinary from 'cloudinary'
+import Stripe from 'stripe'
 
 export const deleteResourceFromCloudinary = async (url: string, isVideo: boolean = false) => {
 
@@ -17,3 +18,9 @@ export const deleteResourceFromCloudinary = async (url: string, isVideo: boolean
     }
 
 }
+
+
+export const stripe = new Stripe(useRuntimeConfig().stripeSecret, {
+    apiVersion: '2023-10-16',
+    typescript: true
+})

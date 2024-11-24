@@ -8,7 +8,7 @@
         <UButton v-if="isTeacherPage || isCoursePage" to="/" label="Exit" icon="i-lucide-log-out" size="sm"
             variant="ghost">
         </UButton>
-        <UButton v-else to="/teacher" label="Teacher Mode" size="sm" variant="ghost">
+        <UButton v-else to="/teacher/courses" label="Teacher Mode" size="sm" variant="ghost">
         </UButton>
         <NavbarUserProfile></NavbarUserProfile>
     </div>

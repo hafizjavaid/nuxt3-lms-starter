@@ -5,7 +5,7 @@
             <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
                 <template v-if="status !== 'pending' && courses">
                     <NuxtLink v-for="course in courses" :key="course.id" :to="`/courses/${course.id}`">
-                        <UCard :ui="{ body: { padding: 'p-3 sm:p-3' } }" class="cursor-pointer">
+                        <UCard :ui="{ body: { padding: 'p-3 sm:p-3' } }" class="cursor-pointer h-full">
                             <img v-if="course.imageUrl" :src="course.imageUrl"
                                 class="object-cover rounded-md w-full max-h-[200px]" :alt="course.title" />
                             <div class="flex flex-col pt-2">
@@ -23,11 +23,11 @@
                                         </span>
                                     </div>
                                 </div>
-                                <!-- <template v-if="course.p !== null">
-                                    <CourseProgress :variant="progress === 100 ? 'success' : 'default'"
-                                        :value="progress" />
-                                </template> -->
-                                <p class="font-medium text-md md:text-sm text-slate-700">
+                                <template v-if="course.progress !== null">
+                                    <CourseProgress :variant="course.progress === 100 ? 'success' : 'default'"
+                                        :value="course.progress ?? 0" />
+                                </template>
+                                <p v-else class="font-medium text-md md:text-sm text-slate-700">
                                     {{ course.price ? formatPrice(course.price) : 'No price' }}
                                 </p>
                             </div>
